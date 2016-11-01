@@ -1,0 +1,9 @@
+- hosts: db
+  tasks:
+    - name: "network"
+      shell: ifconfig
+      register: interface
+
+    - debug: var=interface.stdout_lines
+      when: interface | succenss
+
