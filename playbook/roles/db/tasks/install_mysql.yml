@@ -26,10 +26,22 @@
 - name: setting mysql auto starting
   service: name=mysqld state=started enabled=yes
 
-- name: install parckage about mysql for ansible mysql modules
+- name: install parckage for ansible mysql modules
   yum:
     name: "{{ item }}"
-    state: present
+    state: latest
   with_items:
+    - epel-release
     - MySQL-python
     - libselinux-python
+
+- name: install parckage for ansible pip module
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - python-pip
+    - python-virtualenv
+
+- name: install python module for ansible expect module
+  pip: name=pexpect state=latest

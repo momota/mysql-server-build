@@ -1,0 +1,33 @@
+---
+- name: get temporary password
+  shell: "grep 'temporary password is generated' /var/log/mysqld.log | awk -F 'root@localhost: ' '{print $2}'"
+  register: temp_password
+
+- name: change root password (initial setting)
+  expect:
+    command: "mysqladmin password {{ db_account.password }} -u root -p"
+    responses:
+      ".*password: ": "{{ temp_password.stdout }}"
+  ignore_errors: true
+
+- name: Copy .my.cnf file with root password credentials
+  template:
+    src: "user-my.cnf.j2"
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Get list of hosts for the anonymous user
+  command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
+  register: anonymous_hosts
+  changed_when: false
+  always_run: true
+
+- name: Remove anonymous MySQL users
+  mysql_user:
+    name: ""
+    host: "{{ item }}"
+    state: absent
+  with_items: "{{ anonymous_hosts.stdout_lines }}"
+

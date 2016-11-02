@@ -1,0 +1,68 @@
+---
+- name: Copy my.cnf global MySQL configuration.
+  template:
+    src: my.cnf.j2
+    dest: "{{ mysql_57.global_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    force: yes
+  notify: restart mysql
+
+- name: Verify mysql include directory exists.
+  file:
+    path: "{{ mysql_57.global_config_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when: mysql_config_include_files | length
+
+# - name: Copy my.cnf override files into include directory.
+#   template:
+#     src: "{{ item.src }}"
+#     dest: "{{ mysql57.global_config_dir }}/{{ item.src | basename }}"
+#     owner: root
+#     group: root
+#     mode: 0644
+#     force: "{{ item.force | default(False) }}"
+#   with_items:
+#     - { src: path/relative/to/playbook/file.cnf force: yes }
+#   notify: restart mysql
+
+- name: Create slow query log file (if configured).
+  shell: "touch {{ mysql_57.slow_query_log_file }} creates={{ mysql_57.slow_query_log_file }}"
+
+- name: Create datadir if it does not exist
+  file:
+    path: /var/lib/mysql
+    state: directory
+    owner: mysql
+    group: mysql
+    mode:  0755
+    setype: mysqld_db_t
+
+- name: Set ownership on slow query log file (if configured).
+  file:
+    path: "{{ mysql_57.slow_query_log_file }}"
+    state: file
+    owner: mysql
+    group: mysql
+    mode: 0640
+
+- name: Create error log file (if configured).
+  shell: "touch {{ mysql_57.log_error }} creates={{ mysql_57.log_error }}"
+  when: mysql_log_error != ""
+
+- name: Set ownership on error log file (if configured).
+  file:
+    path: "{{ mysql_57.log_error }}"
+    state: file
+    owner: mysql
+    group: mysql
+    mode: 0640
+  when: mysql_log_error != ""
+
+- name: Ensure MySQL is started and enabled on boot.
+  service: name=mysqld state=started enabled=yes
+  register: mysql_service_configuration

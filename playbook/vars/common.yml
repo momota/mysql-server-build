@@ -1,2 +1,14 @@
 mysql_57:
+  global_config_file: /etc/my.cnf
+  global_config_dir: /etc/my.cnf.d
+  slow_query_log_file: /var/log/mysql-slow.log
+  log_error: /var/log/mysql.err
+  syslog_tag: mysql
+  pid_file: /var/run/mysqld\mysqld.pid
+  socket: /var/lib/mysql/mysql.sock
+  support_innodb_large_prefix: false
   default_config: /root/.my.cnf
+  test:
+    db: foo
+    user: hoge
+    pass: hoge
