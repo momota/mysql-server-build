@@ -1,0 +1,5 @@
+[master]
+db01
+
+[slave]
+db02
