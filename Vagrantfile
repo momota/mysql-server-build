@@ -21,13 +21,11 @@ Vagrant.configure("2") do |config|
       machine.vm.hostname = "db0#{machine_id}"
       machine.vm.network "private_network", ip: "10.10.10.#{machine_id}"
 
-      if machine_id == N
-        machine.vm.provision :ansible do |ansible|
-          ansible.inventory_path = "hosts"
-          ansible.playbook       = "main.yml"
-          ansible.limit          = "all"
-          ansible.verbose        = "v"
-        end
+      machine.vm.provision :ansible do |ansible|
+        ansible.playbook       = "main.yml"
+        ansible.verbose        = "v"
+        # ansible.limit          = "all"
+        # ansible.inventory_path = "hosts"
       end
     end
   end

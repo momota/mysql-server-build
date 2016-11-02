@@ -1,6 +1,5 @@
-- hosts: db
+- hosts: all
   tasks:
-    - name: "route"
-      shell: netstat -r
-      register: route
+    - name: is alive?
+      ping:
 
