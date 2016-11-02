@@ -25,7 +25,11 @@ Vagrant.configure("2") do |config|
         ansible.playbook       = "playbook/main.yml"
         ansible.verbose        = "v"
         # ansible.limit          = "all"
-        # ansible.inventory_path = "hosts"
+        # ansible.inventory_path = "playbook/hosts"
+        ansible.groups = {
+          "master" => ["db01"],
+          "slave"  => ["db02"]
+        }
       end
     end
   end

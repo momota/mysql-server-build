@@ -64,5 +64,5 @@
   when: mysql_log_error != ""
 
 - name: Ensure MySQL is started and enabled on boot.
-  service: name=mysqld state=started enabled=yes
+  service: name=mysql state=started enabled=yes
   register: mysql_service_configuration
