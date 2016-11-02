@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
       machine.vm.network "private_network", ip: "10.10.10.#{machine_id}"
 
       machine.vm.provision :ansible do |ansible|
-        ansible.playbook       = "main.yml"
+        ansible.playbook       = "playbook/main.yml"
         ansible.verbose        = "v"
         # ansible.limit          = "all"
         # ansible.inventory_path = "hosts"

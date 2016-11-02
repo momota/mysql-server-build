@@ -1,0 +1,71 @@
+---
+- name: remove mariadb
+  yum: name=mariadb-libs state=removed
+
+- name: upgrade all packages
+  yum: name=* state=latest
+
+
+- name: register mysql's repository
+  yum:
+    name: http://dev.mysql.com/get/mysql57-community-release-el6-9.noarch.rpm
+    state: present
+
+- name: install mysql
+  yum:
+    name: "{{ item }}"
+    enablerepo: mysql57-community
+    state: present
+  with_items:
+    - mysql-community-server
+    - mysql-community-client
+    - mysql-community-common
+    - mysql-community-libs
+    - mysql-community-libs-compat
+
+- name: setting mysql auto starting
+  service: name=mysqld state=started enabled=yes
+
+- name: install parckage about mysql for ansible mysql modules
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - MySQL-python
+    - libselinux-python
+
+#- name: create configuration file for root access
+#  template:
+#    src: .my.cnf.j2
+#    dest: "{{ mysql_57.default_config }}"
+#    owner: root
+#    group: root
+#    mode: 0600
+#
+#
+#- name: check installing
+#  shell: "mysqladmin --defaults-file={{ mysql_57.default_config }} ping | grep alive"
+#  ignore_errors: true
+#  register: is_alive
+#
+#- name: delete "anonymous" user
+#  mysql_user:
+#    name: ""
+#    host: "{{ item }}"
+#    state: absent
+#  with_items:
+#    - localhost.localdomain
+#    - localhost
+#  when: is_alive.rc == 1
+#
+#- name: change "root" password
+#  mysql_user:
+#    name: "root"
+#    host: "{{ item }}"
+#    password: "{{ db_account.password }}"
+#  with_items:
+#    - 127.0.0.1
+#    - ::1
+#    - localhost.localdomain
+#    - localhost
+#  when: is_alive.rc == 1

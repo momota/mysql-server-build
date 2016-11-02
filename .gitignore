@@ -26,3 +26,5 @@ samples
 vendor/bundle/
 
 public/
+
+playbook/private_vars/

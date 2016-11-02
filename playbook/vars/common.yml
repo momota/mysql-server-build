@@ -1,0 +1,2 @@
+mysql_57:
+  default_config: /root/.my.cnf
