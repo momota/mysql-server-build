@@ -5,7 +5,7 @@ socket = {{ mysql_57.socket }}
 
 [mysqld]
 port = 3306
-bind-address = {{ mysql_bind_address }}
+bind-address = "0.0.0.0"
 datadir = /var/lib/mysql
 socket = {{ mysql_57.socket }}
 pid-file = {{ mysql_57.pid_file }}
@@ -58,46 +58,38 @@ user = mysql
 ;performance_schema
 
 # Memory settings.
-key_buffer_size = {{ mysql_key_buffer_size }}
-max_allowed_packet = {{ mysql_max_allowed_packet }}
-table_open_cache = {{ mysql_table_open_cache }}
-sort_buffer_size = {{ mysql_sort_buffer_size }}
-read_buffer_size = {{ mysql_read_buffer_size }}
-read_rnd_buffer_size = {{ mysql_read_rnd_buffer_size }}
-myisam_sort_buffer_size = {{ mysql_myisam_sort_buffer_size }}
-thread_cache_size = {{ mysql_thread_cache_size }}
-query_cache_size = {{ mysql_query_cache_size }}
-query_cache_limit = {{ mysql_query_cache_limit }}
-max_connections = {{ mysql_max_connections }}
-tmp_table_size = {{ mysql_tmp_table_size }}
-max_heap_table_size = {{ mysql_max_heap_table_size }}
+key_buffer_size = {{ mysql_57.key_buffer_size }}
+max_allowed_packet = {{ mysql_57.max_allowed_packet }}
+table_open_cache = {{ mysql_57.table_open_cache }}
+sort_buffer_size = {{ mysql_57.sort_buffer_size }}
+read_buffer_size = {{ mysql_57.read_buffer_size }}
+read_rnd_buffer_size = {{ mysql_57.read_rnd_buffer_size }}
+myisam_sort_buffer_size = {{ mysql_57.myisam_sort_buffer_size }}
+thread_cache_size = {{ mysql_57.thread_cache_size }}
+query_cache_size = {{ mysql_57.query_cache_size }}
+query_cache_limit = {{ mysql_57.query_cache_limit }}
+max_connections = {{ mysql_57.max_connections }}
+tmp_table_size = {{ mysql_57.tmp_table_size }}
+max_heap_table_size = {{ mysql_57.max_heap_table_size }}
 
 # Other settings.
-wait_timeout = {{ mysql_wait_timeout }}
-lower_case_table_names = {{ mysql_lower_case_table_names }}
+wait_timeout = {{ mysql_57.wait_timeout }}
+lower_case_table_names = {{ mysql_57.lower_case_table_names }}
 
 # InnoDB settings.
-{% if mysql_supports_innodb_large_prefix %}
-innodb_large_prefix = {{ mysql_innodb_large_prefix }}
-innodb_file_format = {{ mysql_innodb_file_format }}
-{% endif %}
-innodb_file_per_table = {{ mysql_innodb_file_per_table }}
-innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
-innodb_log_file_size = {{ mysql_innodb_log_file_size }}
-innodb_log_buffer_size = {{ mysql_innodb_log_buffer_size }}
-innodb_flush_log_at_trx_commit = {{ mysql_innodb_flush_log_at_trx_commit }}
-innodb_lock_wait_timeout = {{ mysql_innodb_lock_wait_timeout }}
+innodb_large_prefix = {{ mysql_57.innodb_large_prefix }}
+innodb_file_format = {{ mysql_57.innodb_file_format }}
+innodb_file_per_table = {{ mysql_57.innodb_file_per_table }}
+innodb_buffer_pool_size = {{ mysql_57.innodb_buffer_pool_size }}
+innodb_log_file_size = {{ mysql_57.innodb_log_file_size }}
+innodb_log_buffer_size = {{ mysql_57.innodb_log_buffer_size }}
+innodb_flush_log_at_trx_commit = {{ mysql_57.innodb_flush_log_at_trx_commit }}
+innodb_lock_wait_timeout = {{ mysql_57.innodb_lock_wait_timeout }}
 
 [mysqldump]
 quick
-max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
+max_allowed_packet = {{ mysql_57.mysqldump_max_allowed_packet }}
 
 [mysqld_safe]
-pid-file = {{ mysql_pid_file }}
+pid-file = {{ mysql_57.pid_file }}
 
-{% if mysql_config_include_files | length %}
-# * IMPORTANT: Additional settings that can override those from this file!
-#   The files must end with '.cnf', otherwise they'll be ignored.
-#
-!includedir {{ mysql_config_include_dir }}
-{% endif %}

@@ -16,7 +16,7 @@
     owner: root
     group: root
     mode: 0755
-  when: mysql_config_include_files | length
+  when: mysql_57.config_include_files | length
 
 # - name: Copy my.cnf override files into include directory.
 #   template:
@@ -52,7 +52,7 @@
 
 - name: Create error log file (if configured).
   shell: "touch {{ mysql_57.log_error }} creates={{ mysql_57.log_error }}"
-  when: mysql_log_error != ""
+  when: mysql_57.log_error != ""
 
 - name: Set ownership on error log file (if configured).
   file:
@@ -61,8 +61,8 @@
     owner: mysql
     group: mysql
     mode: 0640
-  when: mysql_log_error != ""
+  when: mysql_57.log_error != ""
 
 - name: Ensure MySQL is started and enabled on boot.
-  service: name=mysql state=started enabled=yes
+  service: name=mysqld state=started enabled=yes
   register: mysql_service_configuration
