@@ -93,3 +93,8 @@ max_allowed_packet = {{ mysql_57.mysqldump_max_allowed_packet }}
 [mysqld_safe]
 pid-file = {{ mysql_57.pid_file }}
 
+# Logging configuration.
+syslog
+syslog-tag = {{ mysql_57.syslog_tag }}
+log-error = {{ mysql_57.log_error }}
+
