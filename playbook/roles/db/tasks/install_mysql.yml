@@ -1,4 +1,26 @@
 ---
+- name: Set up LANG
+  lineinfile: >
+    dest=/etc/sysconfig/i18n
+    regexp='^LANG=.*'
+    line='LANG=ja_JP.utf8'
+- name: Set up timezone
+  lineinfile: >
+    dest=/etc/sysconfig/clock
+    regexp='^ZONE=.*'
+    line='ZONE="Asia/Tokyo"'
+- name: Set up UTC
+  lineinfile: >
+    dest=/etc/sysconfig/clock
+    regexp='^UTC=.*'
+    line='UTC=false'
+- name: Link localtime
+  file: >
+    src=/usr/share/zoneinfo/Asia/Tokyo
+    dest=/etc/localtime
+    state=link
+    force=yes
+
 - name: remove mariadb
   yum: name=mariadb-libs state=removed
 
