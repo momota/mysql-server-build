@@ -11,6 +11,10 @@ socket = {{ mysql_57.socket }}
 pid-file = {{ mysql_57.pid_file }}
 skip-name-resolve
 
+# Character encoding congiguration
+skip-character-set-client-handshake
+character-set-server = utf8
+
 # Slow query log configuration.
 slow_query_log = 1
 slow_query_log_file = {{ mysql_57.slow_query_log_file }}
