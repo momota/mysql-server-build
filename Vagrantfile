@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "db0#{machine_id}" do |machine|
       machine.vm.box      = "centos66_64"
       machine.vm.hostname = "db0#{machine_id}"
-      machine.vm.network "private_network", ip: "10.10.10.#{machine_id}"
+      machine.vm.network "private_network", ip: "10.10.10.#{machine_id}", virtualbox__intnet: "my_internal_network"
 
       machine.vm.provision :ansible do |ansible|
         ansible.playbook       = "playbook/main.yml"
