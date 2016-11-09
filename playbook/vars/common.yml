@@ -53,6 +53,16 @@ mysql_57:
 
   # mysql_config_include_dir: /etc/my.cnf.d
 
+  # replication
+  replication_master: "10.10.10.1"
+  replication_user:
+    name: "repl"
+    #host: "10.10.10.0/255.255.255.0"
+    host: "%"
+    password: "Change_here!!1!"
+    priv: "*.*:REPLICATION SLAVE"
+
+
   test:
     db: foo
     user: hoge

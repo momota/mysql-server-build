@@ -20,9 +20,12 @@ slow_query_log = 1
 slow_query_log_file = {{ mysql_57.slow_query_log_file }}
 long_query_time = 2
 
-{% if mysql_replication_master %}
 # Replication
 server-id = {{ mysql_server_id }}
+
+# Crash safe replication
+relay_log_info_repository = TABLE
+relay_log_recovery = ON
 
 {% if mysql_replication_role == 'master' %}
 log_bin = mysql-bin
@@ -30,6 +33,10 @@ log-bin-index = mysql-bin.index
 expire_logs_days = {{ mysql_expire_logs_days }}
 max_binlog_size = {{ mysql_max_binlog_size }}
 binlog_format = {{mysql_binlog_format}}
+
+# Write binary log to disk in synchronization with commit
+sync_binlog = 1
+
 
 {% for db in mysql_databases %}
 {% if db.replicate|default(1) %}
@@ -41,10 +48,10 @@ binlog_ignore_db = {{ db.name }}
 {% endif %}
 
 {% if mysql_replication_role == 'slave' %}
+master_info_repository = TABLE
 read_only
 relay-log = relay-bin
 relay-log-index = relay-bin.index
-{% endif %}
 {% endif %}
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
@@ -52,6 +59,15 @@ symbolic-links = 0
 
 # User is ignored when systemd is used (fedora >= 15).
 user = mysql
+
+
+# GTID
+gtid-mode = on
+enforce-gtid-consistency = on
+
+# In cascade replication system, this configuration needs to switch master to slave
+log-slave-updates
+
 
 # http://dev.mysql.com/doc/refman/5.5/en/performance-schema.html
 ;performance_schema
