@@ -57,8 +57,7 @@ mysql_57:
   replication_master: "10.10.10.1"
   replication_user:
     name: "repl"
-    #host: "10.10.10.0/255.255.255.0"
-    host: "%"
+    host: "10.10.10.0/255.255.255.0"
     password: "Change_here!!1!"
     priv: "*.*:REPLICATION SLAVE"
 

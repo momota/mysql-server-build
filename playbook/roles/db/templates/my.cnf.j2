@@ -39,11 +39,7 @@ sync_binlog = 1
 
 
 {% for db in mysql_databases %}
-{% if db.replicate|default(1) %}
-binlog_do_db = {{ db.name }}
-{% else %}
-binlog_ignore_db = {{ db.name }}
-{% endif %}
+binlog_ignore_db = mysql
 {% endfor %}
 {% endif %}
 

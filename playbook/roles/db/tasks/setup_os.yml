@@ -24,12 +24,15 @@
     state=link
     force=yes
 
-#- name: Add hosts entry based on ansible inventory file
-#  template:
-#    src: hosts.j2
-#    dest: /etc/hosts
-#    owner: root
-#    group: root
-#    mode: 0644
-#    force: yes
+- name: Ensure iptables is terminated and disabled on boot.
+  service: name=iptables state=stopped enabled=no
+
+# - name: Add hosts entry based on ansible inventory file
+#   template:
+#     src: hosts.j2
+#     dest: /etc/hosts
+#     owner: root
+#     group: root
+#     mode: 0644
+#     force: yes
 
