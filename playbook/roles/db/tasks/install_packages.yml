@@ -26,6 +26,7 @@
     - mysql-community-common
     - mysql-community-libs
     - mysql-community-libs-compat
+    - mysql-utilities
 
 - name: Setting mysql auto starting
   service: name=mysqld state=started enabled=yes
