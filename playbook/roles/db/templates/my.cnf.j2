@@ -28,11 +28,21 @@ relay_log_info_repository = TABLE
 relay_log_recovery = ON
 
 {% if mysql_replication_role == 'master' %}
+#
+# MASTER
+#
 log_bin = mysql-bin
 log-bin-index = mysql-bin.index
 expire_logs_days = {{ mysql_expire_logs_days }}
 max_binlog_size = {{ mysql_max_binlog_size }}
 binlog_format = {{mysql_binlog_format}}
+
+# group commit
+binlog_group_commit_sync_delay = 3000
+binlog_group_commit_sync_no_delay_count = 10
+
+# Multi-thread slave
+binlog_max_flush_queue_time = 0
 
 # Write binary log to disk in synchronization with commit
 sync_binlog = 1
@@ -42,12 +52,20 @@ sync_binlog = 1
 binlog_ignore_db = mysql
 {% endfor %}
 {% endif %}
-
 {% if mysql_replication_role == 'slave' %}
+#
+# SLAVE
+#
 master_info_repository = TABLE
 read_only
 relay-log = relay-bin
 relay-log-index = relay-bin.index
+
+# Multi-thread slave
+slave_parallel_workers = 8
+slave_parallel_type = LOGICAL_CLOCK
+# slave_preserve_commit_order = 1
+log_slave_updates = 1
 {% endif %}
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
