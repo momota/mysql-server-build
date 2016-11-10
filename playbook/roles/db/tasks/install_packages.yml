@@ -1,17 +1,21 @@
 ---
-- name: remove mariadb
+- name: Remove mariadb
   yum: name=mariadb-libs state=removed
 
-- name: upgrade all packages
+- name: Remove old existing configuration
+  file:
+    path: "{{ mysql_57.global_config_file }}"
+    state: absent
+
+- name: Upgrade all packages
   yum: name=* state=latest
 
-
-- name: register mysql's repository
+- name: Register mysql's repository
   yum:
     name: http://dev.mysql.com/get/mysql57-community-release-el6-9.noarch.rpm
     state: present
 
-- name: install mysql
+- name: Install mysql
   yum:
     name: "{{ item }}"
     enablerepo: mysql57-community
@@ -23,10 +27,10 @@
     - mysql-community-libs
     - mysql-community-libs-compat
 
-- name: setting mysql auto starting
+- name: Setting mysql auto starting
   service: name=mysqld state=started enabled=yes
 
-- name: install parckage for ansible mysql modules
+- name: Install parckage for ansible mysql modules
   yum:
     name: "{{ item }}"
     state: latest
@@ -35,7 +39,7 @@
     - MySQL-python
     - libselinux-python
 
-- name: install parckage for ansible pip module
+- name: Install parckage for ansible pip module
   yum:
     name: "{{ item }}"
     state: latest
@@ -43,5 +47,5 @@
     - python-pip
     - python-virtualenv
 
-- name: install python module for ansible expect module
+- name: Install python module for ansible expect module
   pip: name=pexpect state=latest
