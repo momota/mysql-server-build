@@ -9,20 +9,37 @@
   when: >
     mysql_replication_role == 'master'
 
-#- name: Check slave replication status.
-#  mysql_replication: mode=getslave
-#  ignore_errors: true
-#  register: slave
-#  when: >
-#    mysql_replication_role == 'slave'
-#
-#- name: Check master replication status.
-#  mysql_replication: mode=getmaster
-#  delegate_to: "{{ mysql_57.replication_master }}"
-#  register: master
-#  when: >
-#    mysql_replication_role == 'slave'
-#
+- name: Check slave replication status.
+  mysql_replication: mode=getslave
+  ignore_errors: true
+  register: slave
+  when: >
+    mysql_replication_role == 'slave'
+
+- name: Check master replication status.
+  mysql_replication: mode=getmaster
+  delegate_to: "{{ mysql_57.replication_master }}"
+  register: master
+  when: >
+    mysql_replication_role == 'slave'
+
+- name: Configure replication on the slave.
+  command: >
+    mysql -e
+    "CHANGE MASTER TO\
+    MASTER_HOST='{{ mysql_57.replication_master }}'\
+    MASTER_USER='{{ mysql_57.replication_user.name }}'\
+    MASTER_PASSWORD='{{ mysql_57.replication_user.passowrd }}'\
+    MASTER_PORT='{{ mysql_57.port }}'\
+    MASTER_LOG_FILE='{{ master.File }}'\
+    MASTER_LOG_POS='{{ master.Position }}'\
+    MASTER_CONNECT_RETRY=10\
+    for channel '{{ mysql_57.replication_channel }}';"
+  ignore_errors: True
+  with_items: "{{ groups.master }}"
+  when: >
+    mysql_replication_role == 'slave'
+
 ## mysql_replication module does not support multi-source replication (@2016-11-09)
 #- name: Configure replication on the slave.
 #  mysql_replication:
@@ -37,8 +54,8 @@
 #  with_items: "{{ groups.master }}"
 #  when: >
 #    mysql_replication_role == 'slave'
-#
-#- name: Start replication.
-#  mysql_replication: mode=startslave
-#  when: >
-#    mysql_replication_role == 'slave'
+
+- name: Start replication.
+  mysql_replication: mode=startslave
+  when: >
+    mysql_replication_role == 'slave'

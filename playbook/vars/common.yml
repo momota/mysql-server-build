@@ -62,6 +62,7 @@ mysql_57:
     host: "10.10.10.0/255.255.255.0"
     password: "Change_here!!1!"
     priv: "*.*:REPLICATION SLAVE"
+  replication_channel: "CHANNEL_TO_db01"
 
 
   test:
