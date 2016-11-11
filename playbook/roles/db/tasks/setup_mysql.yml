@@ -31,3 +31,9 @@
     state: absent
   with_items: "{{ anonymous_hosts.stdout_lines }}"
 
+- name: Install semi-synchronize replication plugins 
+  command: mysql -e "{{ item }}"
+  with_items:
+    - "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
+    - "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';"
+

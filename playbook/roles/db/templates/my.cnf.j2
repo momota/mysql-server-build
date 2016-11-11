@@ -1,12 +1,11 @@
 [client]
-#password = your_password
-port = 3306
+port = {{ mysql_57.port }}
 socket = {{ mysql_57.socket }}
 
 [mysqld]
-port = 3306
+port = {{ mysql_57.port }}
 bind-address = "0.0.0.0"
-datadir = /var/lib/mysql
+datadir = {{ mysql_57.datadir }}
 socket = {{ mysql_57.socket }}
 pid-file = {{ mysql_57.pid_file }}
 skip-name-resolve
@@ -67,6 +66,12 @@ slave_parallel_type = LOGICAL_CLOCK
 # slave_preserve_commit_order = 1
 log_slave_updates = 1
 {% endif %}
+
+# Semi-synchronization
+rpl_semi_sync_master_enabled = 1
+rpl_semi_sync_slave_enabled = 1
+
+
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links = 0

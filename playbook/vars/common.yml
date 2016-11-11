@@ -5,7 +5,9 @@ mysql_57:
   log_error: /var/log/mysql.err
   syslog_tag: mysql
   pid_file: /var/run/mysqld/mysqld.pid
+  datadir: /var/lib/mysql
   socket: /var/lib/mysql/mysql.sock
+  port: 3306
   support_innodb_large_prefix: false
   default_config: /root/.my.cnf
 
@@ -66,3 +68,9 @@ mysql_57:
     db: foo
     user: hoge
     pass: hoge
+
+keepalived:
+  auth_pass: "change_here"
+  router_id: "100"
+  shared_iface: "eth0"
+  shared_ip: "10.10.10.7"

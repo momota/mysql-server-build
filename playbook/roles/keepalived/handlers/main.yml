@@ -1,0 +1,7 @@
+---
+- name: restart keepalived
+  service: name=keepalived state=restarted sleep=5
+
+- name: restart network
+  service: name=network state=restarted sleep=5
+

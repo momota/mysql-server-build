@@ -14,3 +14,5 @@ mysql_databases:
 #     encoding: utf8
 #     replicate: 1
 
+keepalived_role: "master"
+keepalived_priority: "100"

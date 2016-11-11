@@ -1,3 +1,19 @@
 [client]
-user=root
-password={{ db_account.password }}
+user = root
+password = {{ db_account.password }}
+
+[master]
+port = {{ mysql_57.port }}
+socket = {{ mysql_57.socket }}
+user = root
+password = {{ db_account.password }}
+host = 10.10.10.1
+report_host = 10.10.10.1
+
+[slave]
+port = {{ mysql_57.port }}
+socket = {{ mysql_57.socket }}
+user = root
+password = {{ db_account.password }}
+host = 10.10.10.2
+report_host = 10.10.10.2

@@ -1,3 +1,6 @@
 ---
 mysql_replication_role: "slave"
 mysql_server_id: 1001
+
+keepalived_role: "slave"
+keepalived_backup_priority: "50"

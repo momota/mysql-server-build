@@ -1,0 +1,43 @@
+ ! Configuration File for keepalived
+global_defs {
+}
+vrrp_script chk_mysql_service {
+        script "killall -0 {{ keepalived_check_process }}"
+        interval 1  # check every 1 seconds
+        weight 2    # add 2 points of prio if OK
+        fall 2      # "success" stat change to "fail" stat when NON-zero exit code returns N times 
+        rise 2      # "fail" stat change to "fail" stat when zero exit code returns N times 
+
+}
+
+vrrp_instance MySQL {
+    state {{ keepalived_role }}
+    nopreempt
+    interface {{ keepalived.shared_iface }}
+    garp_master_delay 1
+    virtual_router_id {{ keepalived.router_id }}
+    {% if keepalived_role.lower() == "master" %}
+    priority {{ keepalived_priority }}
+    {% else %}
+    priority {{ keepalived_backup_priority }}
+    {% endif %}   
+    advert_int 1  # interval of hello packet
+
+    authentication {
+        auth_type PASS
+        auth_pass {{ keepalived.auth_pass }}
+    }
+
+virtual_ipaddress {
+        {{ keepalived.shared_ip }} dev {{ keepalived.shared_iface }}
+    }
+
+    track_script {
+        chk_mysql_service
+    }
+
+    notify_master /etc/keepalived/vrrp/master.sh
+    notify_backup /etc/keepalived/vrrp/backup.sh
+    notify_stop /etc/keepalived/vrrp/backup.sh
+    notify_fail /etc/keepalived/vrrp/backup.sh
+}
