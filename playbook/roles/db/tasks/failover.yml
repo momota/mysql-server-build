@@ -1,0 +1,10 @@
+---
+- name: Ensure failover user exists on master.
+  mysql_user:
+    name: "{{ mysql_57.failover_user.name }}"
+    host: "{{ mysql_57.failover_user.host | default('%') }}"
+    password: "{{ mysql_57.failover_user.password }}"
+    priv: "{{ mysql_57.failover_user.priv | default('*.*') }}"
+    state: present
+  when: >
+    mysql_replication_role == 'master'
