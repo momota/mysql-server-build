@@ -2,7 +2,8 @@
 global_defs {
 }
 vrrp_script chk_mysql_service {
-        script "killall -0 {{ keepalived_check_process }}"
+        script "mysqlrpladmin --master=/root/my.cnf[master] --discover-slaves-login={{ mysql_57.failover_user.name }}:{{ mysql_57.failover_user.password }} health"
+        # script "killall -0 {{ keepalived_check_process }}"
         interval 1  # check every 1 seconds
         weight 2    # add 2 points of prio if OK
         fall 2      # "success" stat change to "fail" stat when NON-zero exit code returns N times 
