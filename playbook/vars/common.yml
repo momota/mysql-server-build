@@ -60,10 +60,15 @@ mysql_57:
   replication_user:
     name: "repl"
     host: "10.10.10.0/255.255.255.0"
-    password: "Change_here!!1!"
+    password: "Change_here@1"
     priv: "*.*:REPLICATION SLAVE"
   replication_channel: "CHANNEL_TO_db01"
 
+  failover_user:
+    name: "failover"
+    host: "10.10.10.0/255.255.255.0"
+    password: "Change_here@1"
+    priv: "*.*:ALL"
 
   test:
     db: foo

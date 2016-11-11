@@ -4,4 +4,5 @@
 - include: setup_mysql.yml
 - include: configure.yml
 - include: replication.yml
+- include: failover.yml
 

@@ -4,7 +4,9 @@ password = {{ db_account.password }}
 
 [master]
 port = {{ mysql_57.port }}
+{% if mysql_replication_role == 'master' %}
 socket = {{ mysql_57.socket }}
+{% endif %}
 user = root
 password = {{ db_account.password }}
 host = 10.10.10.1
@@ -12,7 +14,9 @@ report_host = 10.10.10.1
 
 [slave]
 port = {{ mysql_57.port }}
+{% if mysql_replication_role == 'slave' %}
 socket = {{ mysql_57.socket }}
+{% endif %}
 user = root
 password = {{ db_account.password }}
 host = 10.10.10.2
