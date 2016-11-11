@@ -31,9 +31,23 @@
     state: absent
   with_items: "{{ anonymous_hosts.stdout_lines }}"
 
+- name: Remove existing replication users
+  mysql_user:
+    name: "{{ mysql_57.replication_user.name }}"
+    state: absent
+
+- name: Permit access to mysql root user from same domain
+  mysql_user:
+    name: root
+    host: "10.10.10.0/255.255.255.0"
+    password: "{{ db_account.password }}"
+    priv: "*.*:ALL"
+    state: present
+
 - name: Install semi-synchronize replication plugins 
   command: mysql -e "{{ item }}"
   with_items:
     - "INSTALL PLUGIN rpl_semi_sync_master SONAME 'semisync_master.so';"
     - "INSTALL PLUGIN rpl_semi_sync_slave SONAME 'semisync_slave.so';"
+  ignore_errors: true
 
