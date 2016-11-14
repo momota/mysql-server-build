@@ -1,3 +1,4 @@
 ---
 - include: install_mha.yml
+- include: configure_mha.yml
 

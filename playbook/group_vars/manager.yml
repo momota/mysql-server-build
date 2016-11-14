@@ -1,2 +1,4 @@
 ---
 mha_role: "manager"
+mha_config_file: "/etc/masterha.cnf"
+

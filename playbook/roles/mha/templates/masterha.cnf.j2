@@ -1,0 +1,15 @@
+[server default]
+user=root
+password={{ db_account.password }}
+ssh_user=root
+manager_workdir=/var/log/masterha/app1
+remote_workdir=/var/log/masterha/app1
+repl_user={{ mysql_57.replication_user.name }}
+repl_password={{ mysql_57.replication_user.password }}
+
+[server1]
+hostname=10.10.10.1
+
+[server2]
+hostname=10.10.10.2
+

@@ -1,0 +1,13 @@
+---
+- name: Copy masterha.cnf
+  template:
+    src: masterha.cnf.j2
+    dest: "{{ mha_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+    force: yes
+  when:
+    - mha_role is defined
+    - mha_role == 'manager'
+
