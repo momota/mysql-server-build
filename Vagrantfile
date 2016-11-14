@@ -24,11 +24,12 @@ Vagrant.configure("2") do |config|
       machine.vm.provision :ansible do |ansible|
         ansible.playbook       = "playbook/main.yml"
         ansible.verbose        = "v"
-        # ansible.limit          = "all"
-        # ansible.inventory_path = "playbook/hosts"
+#        ansible.limit          = "all"
+#        ansible.inventory_path = "playbook/hosts"
         ansible.groups = {
-          "master" => ["db01"],
-          "slave"  => ["db02"]
+          "master"  => ["db01"],
+          "slave"   => ["db02"],
+          "manager" => ["db02"]
         }
       end
     end

@@ -6,5 +6,7 @@
     - vars/common.yml
     - private_vars/common.yml
   roles:
-    - db
+    #- db
+    #- keepalived
+    - mha
 
