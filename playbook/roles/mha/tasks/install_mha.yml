@@ -1,0 +1,45 @@
+---
+- name: Install perl which MHA is depended on [MHA Node]
+  yum:
+    name: perl-DBD-MySQL
+    state: present
+
+- name: Copy MHA Node rpm package [MHA Node]
+  copy:
+    src: mha4mysql-node-0.56-0.el6.noarch.rpm
+    dest: /var/tmp/mha4mysql-node-0.56-0.el6.noarch.rpm
+
+- name: Install  MHA Node from rpm package [MHA Node/Manager]
+  yum:
+    name: /var/tmp/mha4mysql-node-0.56-0.el6.noarch.rpm
+    state: present
+
+- name: Install dependent Perl Moddules [MHA Manager]
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - perl-DBD-MySQL
+    - perl-Config-Tiny
+    - perl-Log-Dispatch
+    - perl-Parallel-ForkManager
+  when:
+    - mha_role is defined
+    - mha_role == 'manager'
+
+- name: Copy MHA Manager rpm package [MHA Manger]
+  copy:
+    src: mha4mysql-manager-0.56-0.el6.noarch.rpm
+    dest: /var/tmp/mha4mysql-manager-0.56-0.el6.noarch.rpm
+  when:
+    - mha_role is defined
+    - mha_role == 'manager'
+
+- name: Install  MHA Manager from rpm package [MHA Manager]
+  yum:
+    name: /var/tmp/mha4mysql-manager-0.56-0.el6.noarch.rpm
+    state: present
+  when:
+    - mha_role is defined
+    - mha_role == 'manager'
+
