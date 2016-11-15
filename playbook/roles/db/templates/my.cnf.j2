@@ -26,15 +26,14 @@ server-id = {{ mysql_server_id }}
 relay_log_info_repository = TABLE
 relay_log_recovery = ON
 
-{% if mysql_replication_role == 'master' %}
-#
+# -----------------------------------------
 # MASTER
 #
 log_bin = mysql-bin
 log-bin-index = mysql-bin.index
-expire_logs_days = {{ mysql_expire_logs_days }}
-max_binlog_size = {{ mysql_max_binlog_size }}
-binlog_format = {{mysql_binlog_format}}
+expire_logs_days = {{ mysql_57.expire_logs_days }}
+max_binlog_size = {{ mysql_57.max_binlog_size }}
+binlog_format = {{mysql_57.binlog_format}}
 
 # group commit
 binlog_group_commit_sync_delay = 3000
@@ -47,12 +46,10 @@ binlog_max_flush_queue_time = 0
 sync_binlog = 1
 
 
-{% for db in mysql_databases %}
-binlog_ignore_db = mysql
-{% endfor %}
-{% endif %}
-{% if mysql_replication_role == 'slave' %}
-#
+# binlog_ignore_db = mysql
+# -----------------------------------------
+
+# -----------------------------------------
 # SLAVE
 #
 master_info_repository = TABLE
@@ -65,7 +62,7 @@ slave_parallel_workers = 8
 slave_parallel_type = LOGICAL_CLOCK
 # slave_preserve_commit_order = 1
 log_slave_updates = 1
-{% endif %}
+# -----------------------------------------
 
 # Semi-synchronization
 rpl_semi_sync_master_enabled = 1

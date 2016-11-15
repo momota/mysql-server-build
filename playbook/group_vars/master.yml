@@ -1,9 +1,6 @@
 ---
 mysql_server_id: 1
 mysql_replication_role: "master"
-mysql_expire_logs_days: 10
-mysql_max_binlog_size: "100M"
-mysql_binlog_format: "ROW"
 
 mysql_databases:
   # binlog_ignore_db

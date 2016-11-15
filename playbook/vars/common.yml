@@ -63,6 +63,9 @@ mysql_57:
     password: "Change_here@1"
     priv: "*.*:REPLICATION SLAVE"
   replication_channel: "CHANNEL_TO_db01"
+  expire_logs_days: 10
+  max_binlog_size: "100M"
+  binlog_format: "ROW"
 
   failover_user:
     name: "failover"

@@ -1,6 +1,8 @@
 [server default]
 user=root
 password={{ db_account.password }}
+# user={{ mysql_57.failover_user.name }}
+# password={{ mysql_57.failover_user.password }}
 ssh_user=root
 manager_workdir=/var/log/masterha/app1
 remote_workdir=/var/log/masterha/app1
