@@ -14,23 +14,16 @@ Vagrant.configure("2") do |config|
   # boxes at https://atlas.hashicorp.com/search.
   # config.vm.box = "centos66_64"
 
-  N = 2
+  N = 3
   (1..N).each do |machine_id|
     config.vm.define "db0#{machine_id}" do |machine|
       machine.vm.box      = "centos66_64"
-      machine.vm.hostname = "db0#{machine_id}"
       machine.vm.network "private_network", ip: "10.10.10.#{machine_id}", virtualbox__intnet: "my_internal_network"
+      machine.vm.hostname = "db0#{machine_id}"
+      machine.vm.hostname = "a#{machine_id}" if machine_id == N
 
-      machine.vm.provision :ansible do |ansible|
-        ansible.playbook       = "playbook/main.yml"
-        ansible.verbose        = "v"
-#        ansible.limit          = "all"
-#        ansible.inventory_path = "playbook/hosts"
-        ansible.groups = {
-          "master"  => ["db01"],
-          "slave"   => ["db02"],
-          "manager" => ["db02"]
-        }
+      machine.vm.provider "virtualbox" do |p|
+        p.memory = 512
       end
     end
   end
