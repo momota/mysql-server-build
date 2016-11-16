@@ -53,7 +53,9 @@ sync_binlog = 1
 # SLAVE
 #
 master_info_repository = TABLE
+{% if mysql_replication_role == 'slave' %}
 read_only
+{% endif %}
 relay-log = relay-bin
 relay-log-index = relay-bin.index
 
