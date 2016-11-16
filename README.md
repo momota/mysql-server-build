@@ -52,10 +52,14 @@ db_account:
 Usage
 =====
 
-run vagrant
-
+Run vagrant to start servers.
 ```sh
-$ vagrant up --provision
+$ vagrant up
+```
+
+Then, run playbook.
+```sh
+$ ansible-playbook -i playbook/hosts playbook/main.yml
 ```
 
 
