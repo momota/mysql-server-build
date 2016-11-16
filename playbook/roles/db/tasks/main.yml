@@ -1,6 +1,5 @@
 ---
 - include: install_packages.yml
-- include: setup_os.yml
 - include: setup_mysql.yml
 - include: configure.yml
 - include: replication.yml
