@@ -8,6 +8,6 @@
   roles:
     - os
     - db
-    #- keepalived
+    - keepalived
     - mha
 

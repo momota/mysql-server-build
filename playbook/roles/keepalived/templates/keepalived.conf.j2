@@ -2,17 +2,16 @@
 global_defs {
 }
 vrrp_script chk_mysql_service {
-        script "mysqlrpladmin --master=/root/my.cnf[master] --discover-slaves-login={{ mysql_57.failover_user.name }}:{{ mysql_57.failover_user.password }} health"
-        # script "killall -0 {{ keepalived_check_process }}"
+        script "service mysqld status"
+        # script "killall -0 mysqld"
         interval 1  # check every 1 seconds
         weight 2    # add 2 points of prio if OK
         fall 2      # "success" stat change to "fail" stat when NON-zero exit code returns N times 
         rise 2      # "fail" stat change to "fail" stat when zero exit code returns N times 
-
 }
 
 vrrp_instance MySQL {
-    state {{ keepalived_role }}
+    state BACKUP
     nopreempt
     interface {{ keepalived.shared_iface }}
     garp_master_delay 1
@@ -37,8 +36,5 @@ virtual_ipaddress {
         chk_mysql_service
     }
 
-    notify_master /etc/keepalived/vrrp/master.sh
-    notify_backup /etc/keepalived/vrrp/backup.sh
-    notify_stop /etc/keepalived/vrrp/backup.sh
-    notify_fail /etc/keepalived/vrrp/backup.sh
+    notify {{ keepalived.script_path }}keepalived_notify.sh
 }

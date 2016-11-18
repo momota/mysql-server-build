@@ -79,10 +79,13 @@ mysql_57:
     pass: hoge
 
 keepalived:
+  user: "vagrant"
+  group: "vagrant"
+  script_path: "/home/vagrant/keepalived/script/"
   auth_pass: "change_here"
   router_id: "100"
-  shared_iface: "eth0"
-  shared_ip: "10.10.10.7"
+  shared_iface: "eth1"
+  shared_ip: "10.10.10.100"
 
 mha:
   user: "vagrant"

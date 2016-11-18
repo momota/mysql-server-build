@@ -12,5 +12,24 @@
     force: yes
   notify: restart keepalived
 
+- name: Create directory for keepalived scripts
+  file:
+    path: "{{ keepalived.script_path }}"
+    state: directory
+    owner: "{{ keepalived.user }}"
+    group: "{{ keepalived.group }}"
+
+- name: Copy keepalived scripts
+  copy:
+    src: "{{ item }}"
+    dest: "{{ keepalived.script_path }}{{ item }}"
+    owner: "{{ keepalived.user }}"
+    group: "{{ keepalived.group }}"
+    mode: 0744
+  with_items:
+    - keepalived_notify.sh
+
+
 - name: Ensure keepalived is started and enabled on boot
   service: name=keepalived state=started enabled=yes
+
