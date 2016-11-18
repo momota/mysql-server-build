@@ -1,7 +1,11 @@
 ---
 - include: install_mha.yml
-  when: "'manager' in group_names"
+  when: >
+    "'manager' in group_names" or
+    "'db' in group_names"
 
 - include: configure_mha.yml
-  when: "'manager' in group_names"
+  when: >
+    "'manager' in group_names" or
+    "'db' in group_names"
 
