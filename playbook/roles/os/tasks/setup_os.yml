@@ -46,3 +46,19 @@
     mode: 0644
     force: yes
 
+#- name: Generate SSH Key pair
+#  expect:
+#    command: 'ssh-keygen -t rsa -N ""'
+#    responses:
+#      "Enter file in which to save the key.*:": ""
+#  when: "'db' in group_names"
+#
+#- name: Exchange SSH public key between DB servers
+#  expect:
+#    command: "ssh-copy-id root@{{ item }}"
+#    responses:
+#      ".*password:": "{{ os_account.root.password }}"
+#  with_items: 
+#    - "groups['db']"
+#  when: "'db' in group_names"
+
