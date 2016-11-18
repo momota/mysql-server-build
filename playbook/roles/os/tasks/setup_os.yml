@@ -2,6 +2,13 @@
 - name: Upgrade all packages
   yum: name=* state=latest
 
+- name: Install parckage for setting OS by ansible
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - libselinux-python
+
 - name: Set up LANG
   lineinfile: >
     dest=/etc/sysconfig/i18n
