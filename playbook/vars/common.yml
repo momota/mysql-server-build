@@ -83,3 +83,9 @@ keepalived:
   router_id: "100"
   shared_iface: "eth0"
   shared_ip: "10.10.10.7"
+
+mha:
+  user: "vagrant"
+  group: "vagrant"
+  workdir: "/var/tmp/masterha/test"
+

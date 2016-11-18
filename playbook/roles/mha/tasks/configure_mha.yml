@@ -11,3 +11,10 @@
     - mha_role is defined
     - mha_role == 'manager'
 
+- name: Create MHA working directory
+  file:
+    path: "{{ mha.workdir }}"
+    state: directory
+    owner: "{{ mha.user }}"
+    group: "{{ mha.group }}"
+

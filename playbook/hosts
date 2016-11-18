@@ -4,5 +4,9 @@
 [slave]
 10.10.10.2  # db02
 
+[db:children]
+master
+slave
+
 [manager]
-10.10.10.2  # db02
+10.10.10.3  # a3

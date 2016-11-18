@@ -35,10 +35,36 @@
     - mha_role is defined
     - mha_role == 'manager'
 
-- name: Install  MHA Manager from rpm package [MHA Manager]
+- name: Install MHA Manager from rpm package [MHA Manager]
   yum:
     name: /var/tmp/mha4mysql-manager-0.56-0.el6.noarch.rpm
     state: present
+  when:
+    - mha_role is defined
+    - mha_role == 'manager'
+
+- name: Create directory for MHA script
+  file:
+    path: "{{ mha_script_dir }}"
+    state: directory
+    owner: "{{ mha.user }}"
+    group: "{{ mha.group }}"
+  when:
+    - mha_role is defined
+    - mha_role == 'manager'
+
+- name: Copy MHA scripts
+  copy:
+    src: "{{ item }}"
+    dest: "{{ mha_script_dir }}{{ item }}"
+    owner: "{{ mha.user }}"
+    group: "{{ mha.group }}"
+    mode: 0744
+  with_items:
+    - master_ip_failover
+    - master_ip_online_change
+    - power_manager
+    - send_report
   when:
     - mha_role is defined
     - mha_role == 'manager'

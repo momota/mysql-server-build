@@ -1,7 +1,16 @@
 ---
 - include: install_packages.yml
+  when: "'db' in group_names"
+
 - include: setup_mysql.yml
+  when: "'db' in group_names"
+
 - include: configure.yml
+  when: "'db' in group_names"
+
 - include: replication.yml
+  when: "'db' in group_names"
+
 - include: failover.yml
+  when: "'db' in group_names"
 

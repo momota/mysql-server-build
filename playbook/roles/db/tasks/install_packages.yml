@@ -7,9 +7,6 @@
     path: "{{ mysql_57.global_config_file }}"
     state: absent
 
-- name: Upgrade all packages
-  yum: name=* state=latest
-
 - name: Register mysql's repository
   yum:
     name: http://dev.mysql.com/get/mysql57-community-release-el6-9.noarch.rpm

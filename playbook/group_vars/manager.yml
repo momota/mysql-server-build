@@ -1,4 +1,4 @@
 ---
 mha_role: "manager"
 mha_config_file: "/etc/masterha.cnf"
-
+mha_script_dir: "/home/vagrant/mha_script/"

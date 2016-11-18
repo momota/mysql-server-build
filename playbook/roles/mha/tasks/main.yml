@@ -1,4 +1,7 @@
 ---
 - include: install_mha.yml
+  when: "'manager' in group_names"
+
 - include: configure_mha.yml
+  when: "'manager' in group_names"
 

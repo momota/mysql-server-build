@@ -1,4 +1,7 @@
 ---
+- name: Upgrade all packages
+  yum: name=* state=latest
+
 - name: Set up LANG
   lineinfile: >
     dest=/etc/sysconfig/i18n
