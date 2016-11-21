@@ -26,6 +26,7 @@
     owner: "{{ keepalived.user }}"
     group: "{{ keepalived.group }}"
     mode: 0744
+    force: yes
   with_items:
     - keepalived_notify.sh
 

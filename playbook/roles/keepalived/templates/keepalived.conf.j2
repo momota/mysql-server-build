@@ -2,8 +2,8 @@
 global_defs {
 }
 vrrp_script chk_mysql_service {
-        script "service mysqld status"
-        # script "killall -0 mysqld"
+        # script "service mysqld status"
+        script "killall -0 mysqld"
         interval 1  # check every 1 seconds
         weight 2    # add 2 points of prio if OK
         fall 2      # "success" stat change to "fail" stat when NON-zero exit code returns N times 
@@ -16,11 +16,11 @@ vrrp_instance MySQL {
     interface {{ keepalived.shared_iface }}
     garp_master_delay 1
     virtual_router_id {{ keepalived.router_id }}
-    {% if keepalived_role.lower() == "master" %}
+  {% if keepalived_role.lower() == "master" %}
     priority {{ keepalived_priority }}
-    {% else %}
+  {% else %}
     priority {{ keepalived_backup_priority }}
-    {% endif %}   
+  {% endif %}
     advert_int 1  # interval of hello packet
 
     authentication {
@@ -28,7 +28,7 @@ vrrp_instance MySQL {
         auth_pass {{ keepalived.auth_pass }}
     }
 
-virtual_ipaddress {
+    virtual_ipaddress {
         {{ keepalived.shared_ip }} dev {{ keepalived.shared_iface }}
     }
 

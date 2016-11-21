@@ -9,10 +9,10 @@ case $END_STATE in
             service mysqld stop
             exit 0
             ;;
-  "BACKUP")
+  "BACKUP") service keepalived stop
             exit 0
             ;;
-  "FAULT")
+  "FAULT")  service keepalived stop
             exit 0
             ;;
   *)        echo "Unknown state ${END_STATE} for VRRP ${TYPE} ${NAME}"
