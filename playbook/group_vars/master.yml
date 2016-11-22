@@ -13,3 +13,4 @@ mysql_databases:
 
 keepalived_role: "master"
 keepalived_priority: "100"
+keepalived_neighbor: "10.10.10.2"

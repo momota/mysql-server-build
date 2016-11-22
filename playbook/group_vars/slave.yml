@@ -4,3 +4,4 @@ mysql_server_id: 1001
 
 keepalived_role: "slave"
 keepalived_backup_priority: "50"
+keepalived_neighbor: "10.10.10.1"

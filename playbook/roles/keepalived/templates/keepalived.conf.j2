@@ -1,14 +1,6 @@
  ! Configuration File for keepalived
 global_defs {
 }
-vrrp_script chk_mysql_service {
-        # script "service mysqld status"
-        script "killall -0 mysqld"
-        interval 1  # check every 1 seconds
-        weight 2    # add 2 points of prio if OK
-        fall 2      # "success" stat change to "fail" stat when NON-zero exit code returns N times 
-        rise 2      # "fail" stat change to "fail" stat when zero exit code returns N times 
-}
 
 vrrp_instance MySQL {
     state BACKUP
@@ -31,10 +23,28 @@ vrrp_instance MySQL {
     virtual_ipaddress {
         {{ keepalived.shared_ip }} dev {{ keepalived.shared_iface }}
     }
+    # notify {{ keepalived.script_path }}keepalived_notify.sh
+}
 
-    track_script {
-        chk_mysql_service
+# Health check for lolcahost
+virtual_server 127.0.0.1 13306 {
+    delay_loop 5
+    lb_algo rr  # RoundRobin
+    lb_kind DR
+    protocol TCP
+
+    real_server 127.0.0.1 3306 {
+        weight 10
+        MISC_CHECK {
+           misc_path {{ keepalived.script_path }}keepalived_healthcheck.sh
+           misc_timeout 10
+        }
     }
-
-    notify {{ keepalived.script_path }}keepalived_notify.sh
+    real_server {{ keepalived_neighbor }} 3306 {
+        weight 10
+        MISC_CHECK {
+           misc_path {{ keepalived.script_path }}keepalived_neighborcheck.sh
+           misc_timeout 10
+        }
+    }
 }
