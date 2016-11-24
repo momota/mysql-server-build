@@ -86,6 +86,7 @@ keepalived:
   router_id: "100"
   shared_iface: "eth1"
   shared_ip: "10.10.10.100"
+  gateway_ip: "10.0.2.2"
 
 mha:
   user: "vagrant"

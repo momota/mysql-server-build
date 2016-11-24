@@ -28,17 +28,20 @@
     mode: 0744
     force: yes
   with_items:
-    - keepalived_notify.sh
     - keepalived_healthcheck.sh
 
 - name: Copy keepalived scripts from templates
   template:
-    src: keepalived_neighborcheck.sh.j2
-    dest: "{{ keepalived.script_path }}keepalived_neighborcheck.sh"
+    src: "{{ item }}.j2"
+    dest: "{{ keepalived.script_path }}{{ item }}"
     owner: "{{ keepalived.user }}"
     group: "{{ keepalived.group }}"
     mode: 0744
     force: yes
+  with_items:
+    - keepalived_master.sh
+    - keepalived_backup.sh
+    - keepalived_neighborcheck.sh
 
 - name: Ensure keepalived is started and enabled on boot
   service: name=keepalived state=started enabled=yes
