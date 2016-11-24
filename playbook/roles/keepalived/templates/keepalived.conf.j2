@@ -8,11 +8,11 @@ vrrp_instance MySQL {
     interface {{ keepalived.shared_iface }}
     garp_master_delay 1
     virtual_router_id {{ keepalived.router_id }}
-  {% if keepalived_role.lower() == "master" %}
-    priority {{ keepalived_priority }}
-  {% else %}
-    priority {{ keepalived_backup_priority }}
-  {% endif %}
+{% if keepalived_role.lower() == "master" %}
+  priority {{ keepalived_priority }}
+{% else %}
+  priority {{ keepalived_backup_priority }}
+{% endif %}
     advert_int 1  # interval of hello packet
 
     authentication {
@@ -24,8 +24,9 @@ vrrp_instance MySQL {
         {{ keepalived.shared_ip }} dev {{ keepalived.shared_iface }}
     }
 
-    notify_master {{ keepalived.script_path }}keepalived_master.sh
-    notify_backup {{ keepalived.script_path }}keepalived_backup.sh
+    notify_master {{ keepalived.script_path }}keepalived_to_be_master.sh
+    notify_backup {{ keepalived.script_path }}keepalived_to_be_backup.sh
+    notify_fault  {{ keepalived.script_path }}keepalived_to_be_backup.sh
 }
 
 # Health check for lolcahost
