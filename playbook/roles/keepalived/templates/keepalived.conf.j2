@@ -26,7 +26,7 @@ vrrp_instance MySQL {
 
     notify_master {{ keepalived.script_path }}keepalived_to_be_master.sh
     notify_backup {{ keepalived.script_path }}keepalived_to_be_backup.sh
-    notify_fault  {{ keepalived.script_path }}keepalived_to_be_backup.sh
+    notify_fault  {{ keepalived.script_path }}keepalived_to_be_fault.sh
 }
 
 # Health check for lolcahost

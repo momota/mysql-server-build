@@ -39,8 +39,9 @@
     mode: 0744
     force: yes
   with_items:
-    - keepalived_master.sh
-    - keepalived_backup.sh
+    - keepalived_to_be_master.sh
+    - keepalived_to_be_backup.sh
+    - keepalived_to_be_fault.sh
     - keepalived_neighborcheck.sh
 
 - name: Ensure keepalived is started and enabled on boot
