@@ -30,6 +30,7 @@
     host: "{{ item }}"
     state: absent
   with_items: "{{ anonymous_hosts.stdout_lines }}"
+  when: anonymous_hosts is defined
 
 - name: Remove existing replication users
   mysql_user:
