@@ -1,4 +1,5 @@
 #!/bin/bash
+INTERVAL=3
 
 for TRIES in `seq 1 3`
 do
@@ -8,7 +9,7 @@ do
     exit 0
   fi
   echo "health check failed ${TRIES} times" | logger -i -t keepalived-healthcheck
-  sleep 1
+  sleep $INTERVAL
 done
 
 echo "MySQL server down detected. shutdown keepalived." | logger -i -t keepalived-healthcheck
