@@ -6,14 +6,18 @@ vrrp_instance MySQL {
     state BACKUP
     nopreempt
     interface {{ keepalived.shared_iface }}
-    garp_master_delay 1
+    garp_master_delay   {{ keepalived.garp_master_delay }}
+    garp_master_repeat  {{ keepalived.garp_master_repeat }}
+    garp_master_refresh {{ keepalived.garp_master_refresh }}
     virtual_router_id {{ keepalived.router_id }}
 {% if keepalived_role.lower() == "master" %}
-  priority {{ keepalived_priority }}
+    priority {{ keepalived_priority }}
 {% else %}
-  priority {{ keepalived_backup_priority }}
+    priority {{ keepalived_backup_priority }}
 {% endif %}
-    advert_int 1  # interval of hello packet
+
+    # interval of hello packet
+    advert_int {{ keepalived.hello_interval }}
 
     authentication {
         auth_type PASS
@@ -25,13 +29,12 @@ vrrp_instance MySQL {
     }
 
     notify_master {{ keepalived.script_path }}keepalived_to_be_master.sh
-    notify_backup {{ keepalived.script_path }}keepalived_to_be_backup.sh
     notify_fault  {{ keepalived.script_path }}keepalived_to_be_fault.sh
 }
 
 # Health check for lolcahost
 virtual_server 127.0.0.1 13306 {
-    delay_loop 5
+    delay_loop {{ keepalived.healthcheck_interval }}
     lb_algo rr  # RoundRobin
     lb_kind DR
     protocol TCP
@@ -40,15 +43,7 @@ virtual_server 127.0.0.1 13306 {
         weight 10
         MISC_CHECK {
            misc_path {{ keepalived.script_path }}keepalived_healthcheck.sh
-           misc_timeout 10
-        }
-    }
-
-    real_server {{ keepalived_neighbor }} 3306 {
-        weight 10
-        MISC_CHECK {
-           misc_path {{ keepalived.script_path }}keepalived_neighborcheck.sh
-           misc_timeout 10
+           misc_timeout 5
         }
     }
 }

@@ -6,6 +6,7 @@ do
   service mysqld status
   RESULT=$?
   if [ $RESULT = 0 ]; then
+    echo "MySQL health check is OK" | logger -i -t keepalived-healthcheck
     exit 0
   fi
   echo "health check failed ${TRIES} times" | logger -i -t keepalived-healthcheck

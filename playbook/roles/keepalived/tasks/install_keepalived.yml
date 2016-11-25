@@ -40,9 +40,7 @@
     force: yes
   with_items:
     - keepalived_to_be_master.sh
-    - keepalived_to_be_backup.sh
     - keepalived_to_be_fault.sh
-    - keepalived_neighborcheck.sh
 
 - name: Ensure keepalived is started and enabled on boot
   service: name=keepalived state=started enabled=yes

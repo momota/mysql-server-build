@@ -87,6 +87,11 @@ keepalived:
   shared_iface: "eth1"
   shared_ip: "10.10.10.100"
   gateway_ip: "10.0.2.2"
+  garp_master_delay: 5
+  garp_master_repeat: 3
+  garp_master_refresh: 10
+  hello_interval: 5
+  healthcheck_interval: 5
 
 mha:
   user: "vagrant"
