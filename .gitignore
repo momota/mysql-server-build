@@ -31,3 +31,4 @@ vendor/bundle/
 public/
 
 playbook/private_vars/
+playbook/roles/williamyeh.fluentd/*
