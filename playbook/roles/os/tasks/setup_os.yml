@@ -62,3 +62,31 @@
 #    - "groups['db']"
 #  when: "'db' in group_names"
 
+
+- name: Increase max number of file descriptors for installing fluentd
+  template:
+    src: limits.conf.j2
+    dest: "{{ ulimit.config_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{ ulimit.config }}"
+  when: item.limits is defined
+
+
+# The process of ansible playbook will stop if the inventory file includes
+# a Control Machine of ansible.
+# For avoiding this, you reboot machines manually at the end of all the process done.
+# - name: reboot machine after change ulimits
+#   shell: sleep 2 && shutdown -r now "reboot by Ansible"
+#   async: 1
+#   poll: 0
+#   ignore_errors: true
+#
+# - name: waiting for a server to finish booting
+#   local_action:
+#     module: wait_for
+#       host={{ inventory_hostname }}
+#       delay=10
+#       timeout=300
+#       port=22

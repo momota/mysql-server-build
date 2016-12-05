@@ -98,3 +98,25 @@ mha:
   group: "vagrant"
   workdir: "/var/tmp/masterha/test"
 
+
+ulimit:
+  config_path: /etc/security/limits.conf
+  config:
+    - name: fluentd
+      limits:
+        - domain: root
+          type: soft
+          item: nofile
+          value: 65536
+        - domain: root
+          type: hard
+          item: nofile
+          value: 65536
+        - domain: '*'
+          type: soft
+          item: nofile
+          value: 65536
+        - domain: '*'
+          type: hard
+          item: nofile
+          value: 65536
