@@ -22,7 +22,7 @@
   command: mysql -NBe 'SELECT Host FROM mysql.user WHERE User = ""'
   register: anonymous_hosts
   changed_when: false
-  always_run: true
+  check_mode: no
 
 - name: Remove anonymous MySQL users
   mysql_user:
@@ -31,6 +31,7 @@
     state: absent
   with_items: "{{ anonymous_hosts.stdout_lines }}"
   when: anonymous_hosts is defined
+  ignore_errors: true
 
 - name: Remove existing replication users
   mysql_user:
