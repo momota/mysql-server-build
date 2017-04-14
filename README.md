@@ -64,15 +64,23 @@ Usage
 
 Run vagrant to start servers.
 ```sh
-$ vagrant up
+host$ vagrant up
+host$ vagrant ssh db03
 
 ```
+
 And, configure SSH keys.
 
-
-Then, run the playbook.
 ```sh
-$ ansible-playbook -i playbook/hosts playbook/main.yml
+db03$ ssh-keygen
+db03$ ssh-copy-id db01
+db03$ ssh-copy-id db02
+```
+
+Then, run the playbook at db03.
+```sh
+db03$ cd /vagrant/
+db03$ ansible-playbook -i playbook/hosts playbook/main.yml
 ```
 
 
