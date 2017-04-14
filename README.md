@@ -42,12 +42,22 @@ ansible.groups = {
 }
 ```
 
-  - `playbook/private_vars/common.yml`
+  - `playbook/private_vars/common.yml`: Change OS and MySQL's root password which you like.
 ```
 ---
+os_account:
+  password: YOUR_PASSWORD_OF_OS_ROOT_USER
 db_account:
   password: YOUR_PASSWORD_OF_MYSQL_ROOT_USER
 ```
+
+3. Install ansible roles from ansible galaxy
+
+```
+$ ansible-galaxy install --roles-path playbook/roles williamyeh.fluentd
+```
+
+
 
 Usage
 =====
@@ -55,11 +65,15 @@ Usage
 Run vagrant to start servers.
 ```sh
 $ vagrant up
-```
 
-Then, run playbook.
+```
+And, configure SSH keys.
+
+
+Then, run the playbook.
 ```sh
 $ ansible-playbook -i playbook/hosts playbook/main.yml
 ```
+
 
 
