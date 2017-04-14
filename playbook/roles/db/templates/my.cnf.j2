@@ -35,6 +35,9 @@ expire_logs_days = {{ mysql_57.expire_logs_days }}
 max_binlog_size = {{ mysql_57.max_binlog_size }}
 binlog_format = {{mysql_57.binlog_format}}
 
+# disable autocommit
+autocommit = 0
+
 # group commit
 binlog_group_commit_sync_delay = 3000
 binlog_group_commit_sync_no_delay_count = 10
@@ -116,6 +119,7 @@ innodb_file_per_table = {{ mysql_57.innodb_file_per_table }}
 innodb_buffer_pool_size = {{ mysql_57.innodb_buffer_pool_size }}
 innodb_log_file_size = {{ mysql_57.innodb_log_file_size }}
 innodb_log_buffer_size = {{ mysql_57.innodb_log_buffer_size }}
+innodb_flush_method = {{ mysql_57.innodb_flush_method }}
 innodb_flush_log_at_trx_commit = {{ mysql_57.innodb_flush_log_at_trx_commit }}
 innodb_lock_wait_timeout = {{ mysql_57.innodb_lock_wait_timeout }}
 

@@ -38,6 +38,7 @@ mysql_57:
   # Set .._log_file_size to 25% of buffer pool size.
   innodb_log_file_size: "64M"
   innodb_log_buffer_size: "8M"
+  innodb_flush_method: "O_DIRECT"
   innodb_flush_log_at_trx_commit: "1"
   innodb_lock_wait_timeout: "50"
 
